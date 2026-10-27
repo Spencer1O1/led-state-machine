@@ -1,6 +1,7 @@
 module LedStateMachine {
     @ Led with 3 states
     queued component Led {
+        state machine instance sm: SM
 
         # One sync and one async command/port are required for queued components
         # This should be overridden by the developers with useful commands/ports

@@ -17,6 +17,7 @@
 register_fprime_library(
     AUTOCODER_INPUTS
         "${CMAKE_CURRENT_LIST_DIR}/Led.fpp"
+        "${CMAKE_CURRENT_LIST_DIR}/SM.fpp"
     SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/Led.cpp"
 #   DEPENDS
