@@ -1,0 +1,10 @@
+# Deployment build. fprime-util writes compile_commands.json here.
+CompileFlags:
+  CompilationDatabase: build-fprime-automatic-native
+
+---
+# Unit tests use a separate build tree containing their generated headers.
+If:
+  PathMatch: .*/test/ut/.*
+CompileFlags:
+  CompilationDatabase: build-fprime-automatic-native-ut
