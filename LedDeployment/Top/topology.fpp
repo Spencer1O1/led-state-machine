@@ -33,6 +33,10 @@ module LedDeployment {
         instance comDriver
         instance cmdSeq
         instance led
+        instance gpioDriver0
+        instance gpioDriver1
+        instance gpioDriver2
+        instance gpioDriver3
 
         # ----------------------------------------------------------------------
         # Pattern graph specifiers
@@ -130,7 +134,8 @@ module LedDeployment {
         }
 
         connections LedDeployment {
-
+            # Drive Led at 1 Hz (blink + button poll)
+            rateGroup_1Hz.RateGroupMemberOut[6] -> led.run
         }
 
     }

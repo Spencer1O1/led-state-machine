@@ -70,4 +70,16 @@ module LedDeployment {
 
     instance comDriver: Drv.TcpClient base id 0x10014000
 
+    @ RED Button
+    instance gpioDriver0: Drv.LinuxGpioDriver base id 0x1001F000
+
+    @ YELLOW Button
+    instance gpioDriver1: Drv.LinuxGpioDriver base id 0x10020000
+
+    @ Green Button
+    instance gpioDriver2: Drv.LinuxGpioDriver base id 0x10021000
+
+    @ LED
+    instance gpioDriver3: Drv.LinuxGpioDriver base id 0x10023000
+
 }
