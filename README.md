@@ -47,3 +47,9 @@ python3 -m pip install -r requirements.txt
 This will look up everything that F' needs in a requirements file that we got from the submodule in step 1. 
 
 These three steps were integral to us getting multiple people to be able to contribute to a single F' project.
+
+# Actual Documentation
+
+This project is handled as a state machine with the following state diagram:
+
+![a state diagram depicting the state machine the team built. It has three states, OFF, ON, and BLINK. All states are connected with arrows indicating the state transition condition. the arrows pointing to OFF are marked 'r', those pointing to ON are marked 'g', and those pointing to BLINK are marked 'y'.](./gas-statemachine-statediagram.jpeg)
