@@ -3,32 +3,24 @@ module LedStateMachine {
     queued component Led {
         state machine instance sm: SM
 
-        # One sync and one async command/port are required for queued components
-        # This should be overridden by the developers with useful commands/ports
-        @ TODO
-        async command TODO_1 opcode 0
+        @ Press the red button (OFF)
+        async command RED
 
-        @ TODO
-        sync command TODO_2
+        @ Press the green button (ON)
+        async command GREEN
 
-        ##############################################################################
-        #### Uncomment the following examples to start customizing your component ####
-        ##############################################################################
+        @ Press the yellow button (BLINK)
+        async command YELLOW
 
-        # @ Example async command
-        # async command COMMAND_NAME(param_name: U32)
+        @ LED entered a new state
+        event StateChanged(
+            $state: string size 16  @< State name
+        ) \
+            severity activity high \
+            format "LED entered {}"
 
-        # @ Example telemetry counter
-        # telemetry ExampleCounter: U64
-
-        # @ Example event
-        # event ExampleStateEvent(example_state: Fw.On) severity activity high id 0 format "State set to {}"
-
-        # @ Example port: receiving calls from the rate group
-        # sync input port run: Svc.Sched
-
-        # @ Example parameter
-        # param PARAMETER_NAME: U32
+        @ Current LED state name
+        telemetry LedState: string size 16
 
         ###############################################################################
         # Standard AC Ports: Required for Channels, Events, Commands, and Parameters  #

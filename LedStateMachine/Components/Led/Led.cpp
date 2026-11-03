@@ -20,14 +20,47 @@ Led ::~Led() {}
 // Handler implementations for commands
 // ----------------------------------------------------------------------
 
-void Led ::TODO_1_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
+void Led ::RED_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
     // TODO
     this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
 }
 
-void Led ::TODO_2_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
+void Led ::GREEN_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
     // TODO
     this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
+}
+
+void Led ::YELLOW_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
+    // TODO
+    this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
+}
+
+// ----------------------------------------------------------------------
+// Implementations for internal state machine actions
+// ----------------------------------------------------------------------
+
+void Led ::LedStateMachine_SM_action_enterOff(SmId smId, LedStateMachine_SM::Signal signal) {
+    // TODO
+}
+
+void Led ::LedStateMachine_SM_action_exitOff(SmId smId, LedStateMachine_SM::Signal signal) {
+    // TODO
+}
+
+void Led ::LedStateMachine_SM_action_enterOn(SmId smId, LedStateMachine_SM::Signal signal) {
+    // TODO
+}
+
+void Led ::LedStateMachine_SM_action_exitOn(SmId smId, LedStateMachine_SM::Signal signal) {
+    // TODO
+}
+
+void Led ::LedStateMachine_SM_action_enterBlink(SmId smId, LedStateMachine_SM::Signal signal) {
+    // TODO
+}
+
+void Led ::LedStateMachine_SM_action_exitBlink(SmId smId, LedStateMachine_SM::Signal signal) {
+    // TODO
 }
 
 }  // namespace LedStateMachine
