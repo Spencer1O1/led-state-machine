@@ -53,3 +53,10 @@ These three steps were integral to us getting multiple people to be able to cont
 This project is handled as a state machine with the following state diagram:
 
 ![a state diagram depicting the state machine the team built. It has three states, OFF, ON, and BLINK. All states are connected with arrows indicating the state transition condition. the arrows pointing to OFF are marked 'r', those pointing to ON are marked 'g', and those pointing to BLINK are marked 'y'.](./gas-statemachine-statediagram.jpeg)
+
+The 'r's represent a push of the red button, the 'y's a push of the yellow button, and the 'g's the push of the green button. The desired functionality of the machine is to cause the LED to behave in specific ways depending on the buttons pushed, as follows:
+- RED: when the red button is pushed, the 'r' condition is met and the LED will be turned off.
+- YELLOW: when the yellow button is pushed, the LED will start blinking on and off at one second intervals.
+- GREEN: when the green button is pushed, the LED will be constantly turned on.
+
+If a button is pushed that would lead to the current state, nothing happens.
