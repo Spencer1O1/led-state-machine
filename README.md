@@ -60,3 +60,7 @@ The 'r's represent a push of the red button, the 'y's a push of the yellow butto
 - GREEN: when the green button is pushed, the LED will be constantly turned on.
 
 If a button is pushed that would lead to the current state, nothing happens.
+
+# To do next
+- add stuff to the deployment
+- configure topology and GPIO pins like FSW lead sent on discord
