@@ -1,4 +1,10 @@
 module LedStateMachine {
+    enum LedMode {
+        OFF
+        ON
+        BLINK
+    }
+
     @ Led with 3 states
     queued component Led {
         state machine instance sm: SM
@@ -13,14 +19,12 @@ module LedStateMachine {
         async command YELLOW
 
         @ LED entered a new state
-        event StateChanged(
-            $state: string size 16  @< State name
-        ) \
+        event StateChanged(mode: LedMode) \
             severity activity high \
             format "LED entered {}"
 
         @ Current LED state name
-        telemetry LedState: string size 16
+        telemetry LedState: LedMode
 
         ###############################################################################
         # Standard AC Ports: Required for Channels, Events, Commands, and Parameters  #
@@ -42,6 +46,9 @@ module LedStateMachine {
 
         @Port to set the value of a parameter
         param set port prmSetOut
+
+        @ Rate group; drives blinking + optional button polling
+        sync input port run: Svc.Sched
 
         @ GPIO ports to read the button GPIOs
         output port gpioRead: [3] Drv.GpioRead

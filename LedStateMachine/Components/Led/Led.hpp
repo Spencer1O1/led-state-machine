@@ -26,6 +26,18 @@ class Led final : public LedComponentBase {
 
   private:
     // ----------------------------------------------------------------------
+    // Handler implementations for typed input ports
+    // ----------------------------------------------------------------------
+
+    //! Handler implementation for run
+    //!
+    //! Rate group; drives blinking + optional button polling
+    void run_handler(FwIndexType portNum,  //!< The port number
+                     U32 context           //!< The call order
+                     ) override;
+
+  private:
+    // ----------------------------------------------------------------------
     // Handler implementations for commands
     // ----------------------------------------------------------------------
 
@@ -84,6 +96,30 @@ class Led final : public LedComponentBase {
     void LedStateMachine_SM_action_exitBlink(SmId smId,                         //!< The state machine id
                                              LedStateMachine_SM::Signal signal  //!< The signal
                                              ) override;
+
+  private:
+    // ----------------------------------------------------------------------
+    // Helper functions
+    // ----------------------------------------------------------------------
+
+    //! Read button GPIOs and send SM signals on active-low press edges
+    void pollButtons();
+
+    //! Toggle the LED while the state machine is in BLINK
+    void updateBlink();
+
+  private:
+    // ----------------------------------------------------------------------
+    // Member variables
+    // ----------------------------------------------------------------------
+
+    //! Current blink level (HIGH = on, LOW = off)
+    Fw::Logic m_blinkLevel = Fw::Logic::LOW;
+
+    //! Previous button levels for rising/falling edge detection (active-low press)
+    Fw::Logic m_lastRed = Fw::Logic::HIGH;
+    Fw::Logic m_lastYellow = Fw::Logic::HIGH;
+    Fw::Logic m_lastGreen = Fw::Logic::HIGH;
 };
 
 }  // namespace LedStateMachine
