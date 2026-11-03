@@ -43,5 +43,10 @@ module LedStateMachine {
         @Port to set the value of a parameter
         param set port prmSetOut
 
+        @ GPIO ports to read the button GPIOs
+        output port gpioRead: [3] Drv.GpioRead
+
+        @ GPIO port to write to LED
+        output port gpioWrite: Drv.GpioWrite
     }
 }
