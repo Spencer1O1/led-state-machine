@@ -25,26 +25,31 @@ module LedDeployment {
     # ----------------------------------------------------------------------
     # Active component instances
     # ----------------------------------------------------------------------
+    # 20Hz rate group (divisor 1 of 20Hz base clock)
+    instance rateGroup_20Hz: Svc.ActiveRateGroup base id 0x10001000 \
+        queue size Default.QUEUE_SIZE \
+        stack size Default.STACK_SIZE \
+        priority 44
 
-    # 1Hz rate group (divisor 1 of 1Hz base clock)
-    instance rateGroup_1Hz: Svc.ActiveRateGroup base id 0x10001000 \
+    # 1Hz rate group (divisor 20 of 20Hz base clock)
+    instance rateGroup_1Hz: Svc.ActiveRateGroup base id 0x10002000 \
         queue size Default.QUEUE_SIZE \
         stack size Default.STACK_SIZE \
         priority 43
 
-    # 0.5Hz rate group (divisor 2 of 1Hz base clock)
-    instance rateGroup_0_5Hz: Svc.ActiveRateGroup base id 0x10002000 \
+    # 0.5Hz rate group (divisor 40 of 20Hz base clock)
+    instance rateGroup_0_5Hz: Svc.ActiveRateGroup base id 0x10003000 \
         queue size Default.QUEUE_SIZE \
         stack size Default.STACK_SIZE \
         priority 42
 
-    # 0.25Hz rate group (divisor 4 of 1Hz base clock)
-    instance rateGroup_0_25Hz: Svc.ActiveRateGroup base id 0x10003000 \
+    # 0.25Hz rate group (divisor 80 of 20Hz base clock)
+    instance rateGroup_0_25Hz: Svc.ActiveRateGroup base id 0x10004000 \
         queue size Default.QUEUE_SIZE \
         stack size Default.STACK_SIZE \
         priority 41
 
-    instance cmdSeq: Svc.CmdSequencer base id 0x10004000 \
+    instance cmdSeq: Svc.CmdSequencer base id 0x10005000 \
         queue size Default.QUEUE_SIZE \
         stack size Default.STACK_SIZE \
         priority 40

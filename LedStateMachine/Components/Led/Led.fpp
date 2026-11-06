@@ -47,8 +47,8 @@ module LedStateMachine {
         @Port to set the value of a parameter
         param set port prmSetOut
 
-        @ Rate group; drives blinking + optional button polling
-        sync input port run: Svc.Sched
+        @ Rate group; button polling + blink clock
+        sync input port tick: Svc.Sched
 
         @ GPIO ports to read the button GPIOs
         output port gpioRead: [3] Drv.GpioRead

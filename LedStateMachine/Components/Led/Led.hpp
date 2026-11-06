@@ -29,12 +29,12 @@ class Led final : public LedComponentBase {
     // Handler implementations for typed input ports
     // ----------------------------------------------------------------------
 
-    //! Handler implementation for run
+    //! Handler implementation for tick
     //!
-    //! Rate group; drives blinking + optional button polling
-    void run_handler(FwIndexType portNum,  //!< The port number
-                     U32 context           //!< The call order
-                     ) override;
+    //! Rate group; button polling + blink clock
+    void tick_handler(FwIndexType portNum,  //!< The port number
+                      U32 context           //!< The call order
+                      ) override;
 
   private:
     // ----------------------------------------------------------------------
@@ -102,6 +102,9 @@ class Led final : public LedComponentBase {
     // Helper functions
     // ----------------------------------------------------------------------
 
+    //! Set the LED level and only update m_blinkLevel when the write succeeds
+    bool setLedLevel(Fw::Logic level);
+
     //! Read button GPIOs and send SM signals on active-low press edges
     void pollButtons();
 
@@ -120,6 +123,8 @@ class Led final : public LedComponentBase {
     Fw::Logic m_lastRed = Fw::Logic::HIGH;
     Fw::Logic m_lastYellow = Fw::Logic::HIGH;
     Fw::Logic m_lastGreen = Fw::Logic::HIGH;
+
+    U32 m_blinkTicks = 0;
 };
 
 }  // namespace LedStateMachine

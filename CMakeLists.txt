@@ -14,6 +14,7 @@ include("${CMAKE_CURRENT_LIST_DIR}/lib/fprime/cmake/FPrime.cmake")
 # NOTE: register custom targets between these two lines
 fprime_setup_included_code()
 
+add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/config-overrides/")
 
 # This includes project-wide objects
 add_fprime_subdirectory("${CMAKE_CURRENT_LIST_DIR}/LedStateMachine")

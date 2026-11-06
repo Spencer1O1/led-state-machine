@@ -18,9 +18,9 @@
 #include "Svc/Subtopologies/DataProducts/SubtopologyTopologyDefs.hpp"
 #include "Svc/Subtopologies/FileHandling/SubtopologyTopologyDefs.hpp"
 
-//ComCcsds Enum Includes
-#include "Svc/Subtopologies/ComCcsds/Ports_ComPacketQueueEnumAc.hpp"
+// ComCcsds Enum Includes
 #include "Svc/Subtopologies/ComCcsds/Ports_ComBufferQueueEnumAc.hpp"
+#include "Svc/Subtopologies/ComCcsds/Ports_ComPacketQueueEnumAc.hpp"
 
 // Include autocoded FPP constants
 #include "LedDeployment/Top/FppConstantsAc.hpp"
@@ -45,10 +45,21 @@
  * ```
  */
 namespace PingEntries {
-    namespace LedDeployment_rateGroup_1Hz {enum { WARN = 3, FATAL = 5 };}
-    namespace LedDeployment_rateGroup_0_5Hz {enum { WARN = 3, FATAL = 5 };}
-    namespace LedDeployment_rateGroup_0_25Hz {enum { WARN = 3, FATAL = 5 };}
-    namespace LedDeployment_cmdSeq {enum { WARN = 3, FATAL = 5 };}
+namespace LedDeployment_rateGroup_20Hz {
+enum { WARN = 3, FATAL = 5 };
+}
+namespace LedDeployment_rateGroup_1Hz {
+enum { WARN = 3, FATAL = 5 };
+}
+namespace LedDeployment_rateGroup_0_5Hz {
+enum { WARN = 3, FATAL = 5 };
+}
+namespace LedDeployment_rateGroup_0_25Hz {
+enum { WARN = 3, FATAL = 5 };
+}
+namespace LedDeployment_cmdSeq {
+enum { WARN = 3, FATAL = 5 };
+}
 }  // namespace PingEntries
 
 // Definitions are placed within the same namespace as the FPP module that contains the topology.
@@ -57,17 +68,17 @@ namespace LedDeployment {
 /**
  * \brief required type definition to carry state
  *
- * The topology autocoder requires an object that carries state with the name `LedDeployment::TopologyState`. Only the type
- * definition is required by the autocoder and the contents of this object are otherwise opaque to the autocoder. The
- * contents are entirely up to the definition of the project. This deployment uses subtopologies.
+ * The topology autocoder requires an object that carries state with the name `LedDeployment::TopologyState`. Only the
+ * type definition is required by the autocoder and the contents of this object are otherwise opaque to the autocoder.
+ * The contents are entirely up to the definition of the project. This deployment uses subtopologies.
  */
 struct TopologyState {
-    const char* hostname;   //!< Hostname for TCP communication
-    U16 port;              //!< Port for TCP communication
-    CdhCore::SubtopologyState cdhCore;           //!< Subtopology state for CdhCore
-    ComCcsds::SubtopologyState comCcsds;         //!< Subtopology state for ComCcsds 
-    DataProducts::SubtopologyState dataProducts; //!< Subtopology state for DataProducts
-    FileHandling::SubtopologyState fileHandling; //!< Subtopology state for FileHandling
+    const char* hostname;                         //!< Hostname for TCP communication
+    U16 port;                                     //!< Port for TCP communication
+    CdhCore::SubtopologyState cdhCore;            //!< Subtopology state for CdhCore
+    ComCcsds::SubtopologyState comCcsds;          //!< Subtopology state for ComCcsds
+    DataProducts::SubtopologyState dataProducts;  //!< Subtopology state for DataProducts
+    FileHandling::SubtopologyState fileHandling;  //!< Subtopology state for FileHandling
 };
 
 namespace PingEntries = ::PingEntries;

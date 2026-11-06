@@ -5,6 +5,7 @@ module LedDeployment {
     # ----------------------------------------------------------------------
 
     enum Ports_RateGroups {
+        rateGroup_20Hz
         rateGroup_1Hz
         rateGroup_0_5Hz
         rateGroup_0_25Hz
@@ -24,6 +25,7 @@ module LedDeployment {
         # Instances used in the topology
         # ----------------------------------------------------------------------
         instance chronoTime
+        instance rateGroup_20Hz
         instance rateGroup_1Hz
         instance rateGroup_0_5Hz
         instance rateGroup_0_25Hz
@@ -105,6 +107,9 @@ module LedDeployment {
             # timer to drive rate group
             timer.CycleOut -> rateGroupDriver.CycleIn
 
+            # 20Hz rate group
+            rateGroupDriver.CycleOut[Ports_RateGroups.rateGroup_20Hz] -> rateGroup_20Hz.CycleIn
+
             # 1Hz rate group
             rateGroupDriver.CycleOut[Ports_RateGroups.rateGroup_1Hz] -> rateGroup_1Hz.CycleIn
             rateGroup_1Hz.RateGroupMemberOut[0]                      -> CdhCore.tlmSend.Run
@@ -134,13 +139,13 @@ module LedDeployment {
         }
 
         connections LedDeployment {
-            # Drive Led at 1 Hz (blink + button poll)
-            rateGroup_1Hz.RateGroupMemberOut[6] -> led.run
+            # Drive Led at 20 Hz (blink + button poll)
+            rateGroup_20Hz.RateGroupMemberOut[0] -> led.tick
 
             led.gpioRead[0] -> gpioDriver0.gpioRead # red
             led.gpioRead[1] -> gpioDriver1.gpioRead # yellow
             led.gpioRead[2] -> gpioDriver2.gpioRead # green
-            led.gpioWrite -> gpioDriver3.gpioWrite # LED
+            led.gpioWrite   -> gpioDriver3.gpioWrite # LED
         }
 
     }

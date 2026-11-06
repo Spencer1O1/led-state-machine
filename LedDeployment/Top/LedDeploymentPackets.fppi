@@ -21,6 +21,7 @@ telemetry packets LedDeploymentPackets {
     ComCcsds.commsBufferManager.CurrBuffs
     ComCcsds.commsBufferManager.HiBuffs
 
+    LedDeployment.rateGroup_20Hz.RgMaxTime
     LedDeployment.rateGroup_1Hz.RgMaxTime
     LedDeployment.rateGroup_0_5Hz.RgMaxTime
     LedDeployment.rateGroup_0_25Hz.RgMaxTime
@@ -37,6 +38,7 @@ telemetry packets LedDeploymentPackets {
     ComCcsds.commsBufferManager.NoBuffs
     ComCcsds.commsBufferManager.EmptyBuffs
 
+    LedDeployment.rateGroup_20Hz.RgCycleSlips
     LedDeployment.rateGroup_1Hz.RgCycleSlips
     LedDeployment.rateGroup_0_5Hz.RgCycleSlips
     LedDeployment.rateGroup_0_25Hz.RgCycleSlips

@@ -6,7 +6,7 @@
 // Provides access to autocoded functions
 #include <LedDeployment/Top/LedDeploymentTopologyAc.hpp>
 // Note: Uncomment when using Svc:TlmPacketizer
-//#include <LedDeployment/Top/LedDeploymentPacketsAc.hpp>
+// #include <LedDeployment/Top/LedDeploymentPacketsAc.hpp>
 
 // Necessary project-specified types
 #include <Fw/Types/MallocAllocator.hpp>
@@ -21,11 +21,12 @@ namespace LedDeployment {
 Fw::MallocAllocator mallocator;
 
 // Rate group timing: base clock interval and divisors are coupled to rate group names
-const Fw::TimeInterval rateGroupInterval(1, 0);  // 1Hz base clock
-Svc::RateGroupDriver::DividerSet rateGroupDivisorsSet{{{1, 0}, {2, 0}, {4, 0}}};
-// Divisors: 1Hz, 0.5Hz, 0.25Hz
+const Fw::TimeInterval rateGroupInterval(0, 50000);  // 20Hz base clock
+Svc::RateGroupDriver::DividerSet rateGroupDivisorsSet{{{1, 0}, {20, 0}, {40, 0}, {80, 0}}};
+// Divisors: 20Hz, 1Hz, 0.5Hz, 0.25Hz
 
 // Context tokens for rate group members (unused, set to zero)
+Svc::ActiveRateGroup::ContextArray rateGroup_20HzContext(0);
 Svc::ActiveRateGroup::ContextArray rateGroup_1HzContext(0);
 Svc::ActiveRateGroup::ContextArray rateGroup_0_5HzContext(0);
 Svc::ActiveRateGroup::ContextArray rateGroup_0_25HzContext(0);
@@ -46,6 +47,7 @@ void configureTopology() {
     rateGroupDriver.configure(rateGroupDivisorsSet);
 
     // Rate groups require context arrays.
+    rateGroup_20Hz.configure(rateGroup_20HzContext);
     rateGroup_1Hz.configure(rateGroup_1HzContext);
     rateGroup_0_5Hz.configure(rateGroup_0_5HzContext);
     rateGroup_0_25Hz.configure(rateGroup_0_25HzContext);
