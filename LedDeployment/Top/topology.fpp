@@ -136,6 +136,11 @@ module LedDeployment {
         connections LedDeployment {
             # Drive Led at 1 Hz (blink + button poll)
             rateGroup_1Hz.RateGroupMemberOut[6] -> led.run
+
+            led.gpioRead[0] -> gpioDriver0.gpioRead # red
+            led.gpioRead[1] -> gpioDriver1.gpioRead # yellow
+            led.gpioRead[2] -> gpioDriver2.gpioRead # green
+            led.gpioWrite -> gpioDriver3.gpioWrite # LED
         }
 
     }
