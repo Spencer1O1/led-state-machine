@@ -5,6 +5,13 @@ module LedStateMachine {
         BLINK
     }
 
+    enum LedState {
+        OFF
+        ON
+        BLINK_ON
+        BLINK_OFF
+    }
+
     @ Led with 3 states
     queued component Led {
         state machine instance sm: SM
@@ -18,13 +25,13 @@ module LedStateMachine {
         @ Press the yellow button (BLINK)
         async command YELLOW
 
-        @ LED entered a new state
-        event StateChanged(mode: LedMode) \
+        @ LED operating mode changed
+        event ModeChanged(mode: LedMode) \
             severity activity high \
-            format "LED entered {}"
+            format "LED mode changed to {}"
 
-        @ Current LED state name
-        telemetry LedState: LedMode
+        @ Current leaf state of the LED state machine
+        telemetry LedState: LedState update on change
 
         ###############################################################################
         # Standard AC Ports: Required for Channels, Events, Commands, and Parameters  #
@@ -46,6 +53,10 @@ module LedStateMachine {
 
         @Port to set the value of a parameter
         param set port prmSetOut
+
+        ###############################################################################
+        # App-defined ports                                                           #
+        ###############################################################################
 
         @ Rate group; button polling + blink clock
         sync input port tick: Svc.Sched

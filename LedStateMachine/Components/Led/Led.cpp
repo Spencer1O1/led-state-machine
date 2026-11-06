@@ -21,8 +21,12 @@ Led ::~Led() {}
 // ----------------------------------------------------------------------
 
 void Led ::tick_handler(FwIndexType portNum, U32 context) {
+    if (this->m_ticks < 10) {
+        ++this->m_ticks;
+    }
+
+    this->sm_sendSignal_tick();
     this->pollButtons();
-    this->updateBlink();
     this->dispatchCurrentMessages();
 }
 
@@ -56,22 +60,6 @@ void Led ::pollButtons() {
     }
 }
 
-void Led ::updateBlink() {
-    if (this->sm_getState() != LedStateMachine_SM::State::BLINK) {
-        return;
-    }
-
-    if (++this->m_blinkTicks < 10) {
-        return;
-    }
-
-    Fw::Logic nextLevel = (this->m_blinkLevel == Fw::Logic::HIGH) ? Fw::Logic::LOW : Fw::Logic::HIGH;
-
-    if (this->setLedLevel(nextLevel)) {
-        this->m_blinkTicks = 0;
-    }
-}
-
 // ----------------------------------------------------------------------
 // Handler implementations for commands
 // ----------------------------------------------------------------------
@@ -97,28 +85,49 @@ void Led ::YELLOW_cmdHandler(FwOpcodeType opCode, U32 cmdSeq) {
 
 void Led ::LedStateMachine_SM_action_enterOff(SmId smId, LedStateMachine_SM::Signal signal) {
     this->setLedLevel(Fw::Logic::LOW);
-    this->log_ACTIVITY_HI_StateChanged(LedMode::OFF);
-    this->tlmWrite_LedState(LedMode::OFF);
+    this->log_ACTIVITY_HI_ModeChanged(LedMode::OFF);
+    this->tlmWrite_LedState(LedState::OFF);
 }
 
 void Led ::LedStateMachine_SM_action_exitOff(SmId smId, LedStateMachine_SM::Signal signal) {}
 
 void Led ::LedStateMachine_SM_action_enterOn(SmId smId, LedStateMachine_SM::Signal signal) {
     this->setLedLevel(Fw::Logic::HIGH);
-    this->log_ACTIVITY_HI_StateChanged(LedMode::ON);
-    this->tlmWrite_LedState(LedMode::ON);
+    this->log_ACTIVITY_HI_ModeChanged(LedMode::ON);
+    this->tlmWrite_LedState(LedState::ON);
 }
 
 void Led ::LedStateMachine_SM_action_exitOn(SmId smId, LedStateMachine_SM::Signal signal) {}
 
 void Led ::LedStateMachine_SM_action_enterBlink(SmId smId, LedStateMachine_SM::Signal signal) {
-    this->m_blinkTicks = 0;
-    this->setLedLevel(Fw::Logic::HIGH);
-    this->log_ACTIVITY_HI_StateChanged(LedMode::BLINK);
-    this->tlmWrite_LedState(LedMode::BLINK);
+    this->log_ACTIVITY_HI_ModeChanged(LedMode::BLINK);
 }
 
 void Led ::LedStateMachine_SM_action_exitBlink(SmId smId, LedStateMachine_SM::Signal signal) {}
+
+void Led::LedStateMachine_SM_action_enterBlinkOn(SmId smId, LedStateMachine_SM::Signal signal) {
+    this->m_ticks = 0;
+    this->setLedLevel(Fw::Logic::HIGH);
+    this->tlmWrite_LedState(LedState::BLINK_ON);
+}
+
+void Led::LedStateMachine_SM_action_exitBlinkOn(SmId smId, LedStateMachine_SM::Signal signal) {}
+
+void Led::LedStateMachine_SM_action_enterBlinkOff(SmId smId, LedStateMachine_SM::Signal signal) {
+    this->m_ticks = 0;
+    this->setLedLevel(Fw::Logic::LOW);
+    this->tlmWrite_LedState(LedState::BLINK_OFF);
+}
+
+void Led::LedStateMachine_SM_action_exitBlinkOff(SmId smId, LedStateMachine_SM::Signal signal) {}
+
+// ----------------------------------------------------------------------
+// Implementations for internal state machine guards
+// ----------------------------------------------------------------------
+
+bool Led::LedStateMachine_SM_guard_blinkPeriodElapsed(SmId smId, LedStateMachine_SM::Signal signal) const {
+    return this->m_ticks >= 10;
+}
 
 // ---------------------------------------------------------------------
 // Helper functions
@@ -133,7 +142,6 @@ bool Led ::setLedLevel(Fw::Logic level) {
         return false;
     }
 
-    this->m_blinkLevel = level;
     return true;
 }
 

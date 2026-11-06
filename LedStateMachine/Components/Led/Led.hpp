@@ -97,34 +97,58 @@ class Led final : public LedComponentBase {
                                              LedStateMachine_SM::Signal signal  //!< The signal
                                              ) override;
 
+    //! Implementation for action enterBlinkOn of state machine LedStateMachine_SM
+    void LedStateMachine_SM_action_enterBlinkOn(SmId smId,                         //!< The state machine id
+                                                LedStateMachine_SM::Signal signal  //!< The signal
+                                                ) override;
+
+    //! Implementation for action exitBlinkOn of state machine LedStateMachine_SM
+    void LedStateMachine_SM_action_exitBlinkOn(SmId smId,                         //!< The state machine id
+                                               LedStateMachine_SM::Signal signal  //!< The signal
+                                               ) override;
+
+    //! Implementation for action enterBlinkOff of state machine LedStateMachine_SM
+    void LedStateMachine_SM_action_enterBlinkOff(SmId smId,                         //!< The state machine id
+                                                 LedStateMachine_SM::Signal signal  //!< The signal
+                                                 ) override;
+
+    //! Implementation for action exitBlinkOff of state machine LedStateMachine_SM
+    void LedStateMachine_SM_action_exitBlinkOff(SmId smId,                         //!< The state machine id
+                                                LedStateMachine_SM::Signal signal  //!< The signal
+                                                ) override;
+
+  private:
+    // ----------------------------------------------------------------------
+    // Implementations for internal state machine guards
+    // ----------------------------------------------------------------------
+
+    //! Implementation for guard blinkPeriodElapsed of state machine LedStateMachine_SM
+    bool LedStateMachine_SM_guard_blinkPeriodElapsed(SmId smId,                         //!< The state machine id
+                                                     LedStateMachine_SM::Signal signal  //!< The signal
+    ) const override;
+
   private:
     // ----------------------------------------------------------------------
     // Helper functions
     // ----------------------------------------------------------------------
 
-    //! Set the LED level and only update m_blinkLevel when the write succeeds
+    //! Set the LED GPIO level; return true if the write succeeds
     bool setLedLevel(Fw::Logic level);
 
     //! Read button GPIOs and send SM signals on active-low press edges
     void pollButtons();
-
-    //! Toggle the LED while the state machine is in BLINK
-    void updateBlink();
 
   private:
     // ----------------------------------------------------------------------
     // Member variables
     // ----------------------------------------------------------------------
 
-    //! Current blink level (HIGH = on, LOW = off)
-    Fw::Logic m_blinkLevel = Fw::Logic::LOW;
-
     //! Previous button levels for rising/falling edge detection (active-low press)
     Fw::Logic m_lastRed = Fw::Logic::HIGH;
     Fw::Logic m_lastYellow = Fw::Logic::HIGH;
     Fw::Logic m_lastGreen = Fw::Logic::HIGH;
 
-    U32 m_blinkTicks = 0;
+    U32 m_ticks = 0;
 };
 
 }  // namespace LedStateMachine
