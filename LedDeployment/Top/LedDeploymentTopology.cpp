@@ -11,6 +11,8 @@
 // Necessary project-specified types
 #include <Fw/Types/MallocAllocator.hpp>
 
+#include <Fw/Logger/Logger.hpp>
+
 // Public functions for use in main program are namespaced with deployment module LedDeployment
 // This is also the namespace where the topology components are instantiated by FPP.
 namespace LedDeployment {
@@ -53,6 +55,27 @@ void configureTopology() {
 
     // PrmDb file name must be supplied by the using topology
     FileHandling::prmDb.configure("PrmDb.dat");
+
+    Os::File::Status status =
+        gpioDriver0.open("/dev/gpiochip0", 5, Drv::LinuxGpioDriver::GpioConfiguration::GPIO_INPUT);
+    if (status != Os::File::Status::OP_OK) {
+        Fw::Logger::log("[ERROR] Failed to open GPIO pin\n");
+    }
+
+    status = gpioDriver1.open("/dev/gpiochip0", 6, Drv::LinuxGpioDriver::GpioConfiguration::GPIO_INPUT);
+    if (status != Os::File::Status::OP_OK) {
+        Fw::Logger::log("[ERROR] Failed to open GPIO pin\n");
+    }
+
+    status = gpioDriver2.open("/dev/gpiochip0", 13, Drv::LinuxGpioDriver::GpioConfiguration::GPIO_INPUT);
+    if (status != Os::File::Status::OP_OK) {
+        Fw::Logger::log("[ERROR] Failed to open GPIO pin\n");
+    }
+
+    status = gpioDriver3.open("/dev/gpiochip0", 19, Drv::LinuxGpioDriver::GpioConfiguration::GPIO_OUTPUT);
+    if (status != Os::File::Status::OP_OK) {
+        Fw::Logger::log("[ERROR] Failed to open GPIO pin\n");
+    }
 }
 
 void setupTopology(const TopologyState& state) {
