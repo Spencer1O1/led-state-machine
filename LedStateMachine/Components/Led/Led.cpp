@@ -58,6 +58,10 @@ void Led ::pollButtons() {
         }
         this->m_lastGreen = green;
     }
+
+    this->log_ACTIVITY_HI_DEBUG(red);
+    this->log_ACTIVITY_HI_DEBUG(green);
+    this->log_ACTIVITY_HI_DEBUG(yellow);
 }
 
 // ----------------------------------------------------------------------

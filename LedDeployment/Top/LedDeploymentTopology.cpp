@@ -59,12 +59,12 @@ void configureTopology() {
     FileHandling::prmDb.configure("PrmDb.dat");
 
     Os::File::Status status =
-        gpioDriver0.open("/dev/gpiochip0", 5, Drv::LinuxGpioDriver::GpioConfiguration::GPIO_INPUT);
+        gpioDriver0.open("/dev/gpiochip0", 27, Drv::LinuxGpioDriver::GpioConfiguration::GPIO_INPUT);
     if (status != Os::File::Status::OP_OK) {
         Fw::Logger::log("[ERROR] Failed to open GPIO pin\n");
     }
 
-    status = gpioDriver1.open("/dev/gpiochip0", 6, Drv::LinuxGpioDriver::GpioConfiguration::GPIO_INPUT);
+    status = gpioDriver1.open("/dev/gpiochip0", 22, Drv::LinuxGpioDriver::GpioConfiguration::GPIO_INPUT);
     if (status != Os::File::Status::OP_OK) {
         Fw::Logger::log("[ERROR] Failed to open GPIO pin\n");
     }
@@ -125,6 +125,7 @@ void teardownTopology(const TopologyState& state) {
     freeThreads(state);
 
     // Other task clean-up.
+    comDriver.terminate();
     comDriver.stop();
     (void)comDriver.join();
 

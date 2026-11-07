@@ -30,6 +30,8 @@ module LedStateMachine {
             severity activity high \
             format "LED mode changed to {}"
 
+        event DEBUG(button: Fw.Logic) severity activity high format "{}"
+
         @ Current leaf state of the LED state machine
         telemetry LedState: LedState update on change
 

@@ -73,7 +73,7 @@ module LedDeployment {
 
     instance timer: Svc.LinuxTimer base id 0x10013000
 
-    instance comDriver: Drv.TcpClient base id 0x10014000
+    instance comDriver: Drv.TcpServer base id 0x10014000
 
     @ RED Button
     instance gpioDriver0: Drv.LinuxGpioDriver base id 0x1001F000
