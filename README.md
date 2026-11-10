@@ -52,15 +52,31 @@ These three steps were integral to us getting multiple people to be able to cont
 
 This project is handled as a state machine with the following state diagram:
 
-![a state diagram depicting the state machine the team built. It has three states, OFF, ON, and BLINK. All states are connected with arrows indicating the state transition condition. the arrows pointing to OFF are marked 'r', those pointing to ON are marked 'g', and those pointing to BLINK are marked 'y'.](./gas-statemachine-statediagram.jpeg)
+![](./gas-statemachine-statediagram.jpeg)
 
-The 'r's represent a push of the red button, the 'y's a push of the yellow button, and the 'g's the push of the green button. The desired functionality of the machine is to cause the LED to behave in specific ways depending on the buttons pushed, as follows:
-- RED: when the red button is pushed, the 'r' condition is met and the LED will be turned off.
-- YELLOW: when the yellow button is pushed, the LED will start blinking on and off at one second intervals.
-- GREEN: when the green button is pushed, the LED will be constantly turned on.
+'r' represents a push of the red button, 'y' represents a push of the yellow button, and 'g' represents a push of the green button. We did this because RED and YELLOW are apparently F' keywords.
 
-If a button is pushed that would lead to the current state, nothing happens.
+#### The INIT state
+When the device is powered on, it is in the initial state. The initial state's only function is to transition to the off state.
 
-# To do next
-- add stuff to the deployment
-- configure topology and GPIO pins like FSW lead sent on discord
+#### The OFF state
+In the off state, the LED does absolutely nothing. It's a pretty boring state.
+##### Entering
+The off state is entered automatically from the INIT state or by pressing the red button from any state.
+
+#### The ON state
+In the off state, the LED is constantly on. It's also pretty boring.
+##### Entering
+The on state is entered by pressing the green button from any state.
+
+#### The BLINK state
+Finally, something exciting. The blink state is composed of two substates, conveniently named ON and OFF. 
+###### blink/ON
+In this state, the LED is constantly ON. It's entered from blink/OFF and leaves for blink/OFF every 10 ticks.
+###### blink/OFF
+In this state, the LED is constantly off. It's entered from blink/ON and leaves for blink/ON every 10 ticks.
+##### Entering
+The blink state is entered by pressing the yellow button from any state.
+
+If you press the button associated with a given state while in that same state, nothing happens.
+
